@@ -60,37 +60,6 @@ jobs:
             pip3 install lutz --find-links dist --force-reinstall
             pytest
 
-  windows:
-    runs-on: windows-latest
-    strategy:
-      matrix:
-        target: [x86]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-          architecture: ${{ matrix.target }}
-      - name: Build wheels
-        uses: PyO3/maturin-action@v1
-        with:
-          target: ${{ matrix.target }}
-          args: --release --out dist --find-interpreter
-          sccache: 'true'
-      - name: Upload wheels
-        uses: actions/upload-artifact@v3
-        with:
-          name: wheels
-          path: dist
-      - name: pytest
-        if: ${{ !startsWith(matrix.target, 'aarch64') }}
-        shell: bash
-        run: |
-          set -e
-          pip install lutz --find-links dist --force-reinstall
-          pip install pytest
-          pytest
-
   macos:
     runs-on: macos-latest
     strategy:
