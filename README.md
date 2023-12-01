@@ -77,3 +77,9 @@ Per default it will push to pipy.org and use token authentication.
 Create API token on pypi.org and add it as secret to the github repository.
 As you can see in the [CI.yml](./github/workflows/CI.yml) the name of this secret should be `PYPI_API_TOKEN`.
 I edited the trigger to `tags: ['v*']` to not run on every push.
+Trigger with e.g.:
+
+```
+TAG='v0.1.1'
+git tag "$TAG" && git push origin "$TAG"
+```
