@@ -48,7 +48,7 @@ Using [pytest](https://docs.pytest.org/) python test suite.
 (`maturin develop`).
 
 ```
-PYTHONPATH=./python pytest tests
+pytest tests
 ```
 
 ## Build and release
@@ -56,8 +56,24 @@ PYTHONPATH=./python pytest tests
 Maturin can build and publish the package wheel and source distribution.
 By default the `--release` flag is used for building the rust library (performance optimizations)
 and files are uploaded to pypi.org.
-This will only create a wheel for this architecture, platform, and python version.
 
 ```
 maturin publish
 ```
+
+The above will only create a wheel for this architecture, platform, and python version.
+More generic releases are explained in the [Maturin tutorial](https://www.maturin.rs/distribution.html).
+There are some caveats with each platform.
+To make things simple, Maturin offers a command to generate a CI workflow for different platforms.
+Here, I am generating a github workflow for publishing.
+
+```
+mkdir -p .github/workflows
+maturin generate-ci --pytest github > .github/workflows/CI.yml
+```
+
+It uses [github/maturin-action](https://github.com/PyO3/maturin-action).
+Per default it will push to pipy.org and use token authentication.
+Create API token on pypi.org and add it as secret to the github repository.
+As you can see in the [CI.yml](./github/workflows/CI.yml) the name of this secret should be `PYPI_API_TOKEN`.
+I edited the trigger to `tags: ['v*']` to not run on every push.
