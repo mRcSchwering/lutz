@@ -4,12 +4,11 @@ build-backend = "maturin"
 
 [project]
 name = "lutz"  # package name
-dynamic = ["version", "dependencies"]
+version = "0.1.5"  # package version
 readme = "README.md"
+description = "Python package setup for adding some additional rust functions"
 requires-python = ">=3.9"
-
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
+dependencies = ["fortune-python"]
 
 [tool.maturin]
 python-source = "python"  # python source

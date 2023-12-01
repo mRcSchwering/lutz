@@ -23,7 +23,6 @@ There is a python package [python/lutz/](./python/lutz/)
 and a Rust library [rust/lib.rs](./rust/lib.rs).
 In [lib.rs](./rust/lib.rs) a python module is implemented which is referenced in
 [Cargo.toml](./Cargo.toml) in `lib.name`.
-[Cargo.toml](./Cargo.toml) also defines package name and version number.
 
 ```
 # build rust library
@@ -32,11 +31,15 @@ maturin develop
 
 The library is build and a resulting `_lib.*.so` file is placed in [python/lutz](./python/lutz/).
 This is defined in [pyproject.toml](./pyproject.toml) under `[tool.maturin]`.
-In [python/lutz/rust.py](./python/lutz/rust.py) the private `_lib` is used.
+From now on rust functions can be imported as private `_lib`.
+I wrote a wrapper in [python/lutz/rust.py](./python/lutz/rust.py).
 
-Note [.vscode/settings.json](./.vscode/settings.json) and [vscode.env](./vscode.env)
-is setup for being able to import *lutz* from the integrated python terminal
-and Jupyter notebooks, as well as tell pylint how to import *lutz*.
+Both [Cargo.toml](./Cargo.toml) and [pyproject.toml](./pyproject.toml) define package name
+and version number but [pyproject.toml](./pyproject.toml) takes precendence.
+
+> Note [.vscode/settings.json](./.vscode/settings.json) and [vscode.env](./vscode.env)
+> is setup for being able to import *lutz* from the integrated python terminal
+> and Jupyter notebooks, as well as tell pylint how to import *lutz*.
 
 ## Tests
 
@@ -48,16 +51,13 @@ Using [pytest](https://docs.pytest.org/) python test suite.
 PYTHONPATH=./python pytest tests
 ```
 
-## Build
+## Build and release
 
-Maturin builds the project as defined in [pyproject.toml](./pyproject.toml)
-into a `.whl`.
+Maturin can build and publish the package wheel and source distribution.
+By default the `--release` flag is used for building the rust library (performance optimizations)
+and files are uploaded to pypi.org.
+This will only create a wheel for this architecture, platform, and python version.
 
 ```
-# release for optimizations
-maturin build  --release
-
-# not tested
-# kann man fürs publishen nehmen
 maturin publish
 ```

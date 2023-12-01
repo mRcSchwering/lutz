@@ -1,6 +1,6 @@
 [package]
-name = "lutz"  # package name
-version = "0.1.0"  # package version
+name = "lutz"  # pyproject.toml version has precedence
+version = "0.0.0"  # pyproject.toml version has precedence
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
